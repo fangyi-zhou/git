@@ -49,13 +49,15 @@ static time_t gm_time_t(timestamp_t time, int tz)
 
 	if (minutes > 0) {
 		if (unsigned_add_overflows(time, minutes * 60))
-			die("Timestamp+tz too large: %"PRItime" +%04d",
-			    time, tz);
+			die("Timestamp+tz too large: %s +%04d",
+			    format_raw_time(time), tz);
 	} else if (time < -minutes * 60)
-		die("Timestamp before Unix epoch: %"PRItime" %04d", time, tz);
+		die("Timestamp before Unix epoch: %s %04d",
+		    format_raw_time(time), tz);
 	time += minutes * 60;
 	if (date_overflows(time))
-		die("Timestamp too large for this system: %"PRItime, time);
+		die("Timestamp too large for this system: %s",
+		    format_raw_time(time));
 	return (time_t)time;
 }
 
@@ -87,7 +89,8 @@ static int local_tzoffset(timestamp_t time)
 	int offset, eastwest;
 
 	if (date_overflows(time))
-		die("Timestamp too large for this system: %"PRItime, time);
+		die("Timestamp too large for this system: %s",
+		    format_raw_time(time));
 
 	t = (time_t)time;
 	localtime_r(&t, &tm);
@@ -119,42 +122,46 @@ void show_date_relative(timestamp_t time, int tz,
 	diff = now->tv_sec - time;
 	if (diff < 90) {
 		strbuf_addf(timebuf,
-			 Q_("%"PRItime" second ago", "%"PRItime" seconds ago", diff), diff);
+			 Q_("%s second ago", "%s seconds ago", diff),
+			 format_raw_time(diff));
 		return;
 	}
 	/* Turn it into minutes */
 	diff = (diff + 30) / 60;
 	if (diff < 90) {
 		strbuf_addf(timebuf,
-			 Q_("%"PRItime" minute ago", "%"PRItime" minutes ago", diff), diff);
+			 Q_("%s minute ago", "%s minutes ago", diff),
+			 format_raw_time(diff));
 		return;
 	}
 	/* Turn it into hours */
 	diff = (diff + 30) / 60;
 	if (diff < 36) {
 		strbuf_addf(timebuf,
-			 Q_("%"PRItime" hour ago", "%"PRItime" hours ago", diff), diff);
+			 Q_("%s hour ago", "%s hours ago", diff),
+			 format_raw_time(diff));
 		return;
 	}
 	/* We deal with number of days from here on */
 	diff = (diff + 12) / 24;
 	if (diff < 14) {
 		strbuf_addf(timebuf,
-			 Q_("%"PRItime" day ago", "%"PRItime" days ago", diff), diff);
+			 Q_("%s day ago", "%s days ago", diff),
+			 format_raw_time(diff));
 		return;
 	}
 	/* Say weeks for the past 10 weeks or so */
 	if (diff < 70) {
 		strbuf_addf(timebuf,
-			 Q_("%"PRItime" week ago", "%"PRItime" weeks ago", (diff + 3) / 7),
-			 (diff + 3) / 7);
+			 Q_("%s week ago", "%s weeks ago", (diff + 3) / 7),
+			 format_raw_time((diff + 3) / 7));
 		return;
 	}
 	/* Say months for the past 12 months or so */
 	if (diff < 365) {
 		strbuf_addf(timebuf,
-			 Q_("%"PRItime" month ago", "%"PRItime" months ago", (diff + 15) / 30),
-			 (diff + 15) / 30);
+			 Q_("%s month ago", "%s months ago", (diff + 15) / 30),
+			 format_raw_time((diff + 15) / 30));
 		return;
 	}
 	/* Give years and months for 5 years or so */
@@ -164,21 +171,23 @@ void show_date_relative(timestamp_t time, int tz,
 		timestamp_t months = totalmonths % 12;
 		if (months) {
 			struct strbuf sb = STRBUF_INIT;
-			strbuf_addf(&sb, Q_("%"PRItime" year", "%"PRItime" years", years), years);
+			strbuf_addf(&sb, Q_("%s year", "%s years", years),
+				format_raw_time(years));
 			strbuf_addf(timebuf,
 				 /* TRANSLATORS: "%s" is "<n> years" */
-				 Q_("%s, %"PRItime" month ago", "%s, %"PRItime" months ago", months),
-				 sb.buf, months);
+				 Q_("%s, %s month ago", "%s, %s months ago", months),
+				 sb.buf, format_raw_time(months));
 			strbuf_release(&sb);
 		} else
 			strbuf_addf(timebuf,
-				 Q_("%"PRItime" year ago", "%"PRItime" years ago", years), years);
+				 Q_("%s year ago", "%s years ago", years),
+				 format_raw_time(years));
 		return;
 	}
 	/* Otherwise, just years. Centuries is probably overkill. */
 	strbuf_addf(timebuf,
-		 Q_("%"PRItime" year ago", "%"PRItime" years ago", (diff + 183) / 365),
-		 (diff + 183) / 365);
+		 Q_("%s year ago", "%s years ago", (diff + 183) / 365),
+		 format_raw_time((diff + 183) / 365));
 }
 
 struct date_mode *date_mode_from_type(enum date_mode_type type)
@@ -191,6 +200,15 @@ struct date_mode *date_mode_from_type(enum date_mode_type type)
 	return &mode;
 }
 
+const char *format_raw_time(timestamp_t time)
+{
+	static struct strbuf time_buf = STRBUF_INIT;
+
+	strbuf_reset(&time_buf);
+	strbuf_addf(&time_buf, "%"PRItime, time);
+	return time_buf.buf;
+}
+
 const char *show_date(timestamp_t time, int tz, const struct date_mode *mode)
 {
 	struct tm *tm;
@@ -198,7 +216,7 @@ const char *show_date(timestamp_t time, int tz, const struct date_mode *mode)
 
 	if (mode->type == DATE_UNIX) {
 		strbuf_reset(&timebuf);
-		strbuf_addf(&timebuf, "%"PRItime, time);
+		strbuf_addstr(&timebuf, format_raw_time(time));
 		return timebuf.buf;
 	}
 
@@ -207,7 +225,7 @@ const char *show_date(timestamp_t time, int tz, const struct date_mode *mode)
 
 	if (mode->type == DATE_RAW) {
 		strbuf_reset(&timebuf);
-		strbuf_addf(&timebuf, "%"PRItime" %+05d", time, tz);
+		strbuf_addf(&timebuf, "%s %+05d", format_raw_time(time), tz);
 		return timebuf.buf;
 	}
 
@@ -666,7 +684,8 @@ static void date_string(timestamp_t date, int offset, struct strbuf *buf)
 		offset = -offset;
 		sign = '-';
 	}
-	strbuf_addf(buf, "%"PRItime" %c%02d%02d", date, sign, offset / 60, offset % 60);
+	strbuf_addf(buf, "%s %c%02d%02d", format_raw_time(date), sign,
+		offset / 60, offset % 60);
 }
 
 /*

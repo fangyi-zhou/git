@@ -600,8 +600,8 @@ static void dos_time(timestamp_t *timestamp, int *dos_date, int *dos_time)
 	struct tm *t;
 
 	if (date_overflows(*timestamp))
-		die("timestamp too large for this system: %"PRItime,
-		    *timestamp);
+		die("timestamp too large for this system: %s",
+		    format_raw_time(*timestamp));
 	time = (time_t)*timestamp;
 	t = localtime(&time);
 	*timestamp = time;

@@ -407,7 +407,7 @@ static void fsck_handle_reflog_oid(const char *refname, struct object_id *oid,
 			if (timestamp && name_objects)
 				add_decoration(fsck_walk_options.object_names,
 					obj,
-					xstrfmt("%s@{%"PRItime"}", refname, timestamp));
+					xstrfmt("%s@{%s}", refname, format_raw_time(timestamp)));
 			obj->used = 1;
 			mark_object_reachable(obj);
 		} else {
