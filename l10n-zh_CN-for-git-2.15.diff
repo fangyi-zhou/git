@@ -1,0 +1,887 @@
+commit 55b122525a38b4a6d6ad7f0f5022907851aac323
+Author: Jiang Xin <worldhello.net@gmail.com>
+Date:   Sun Oct 8 15:29:11 2017 +0800
+
+    l10n: zh_CN: for git v2.15.0 l10n round 2
+    
+    Translate 69 messages (3245t0f0u) for git v2.15.0-rc2.
+    
+    Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
+
+diff --git a/po/zh_CN.po b/po/zh_CN.po
+index 51f5bc9a40..b08baafee3 100644
+--- a/po/zh_CN.po
++++ b/po/zh_CN.po
+@@ -121,6 +121,7 @@
+ #   tagger                           |  打标签者
+ #   topic branch                     |  主题分支
+ #   track                            |  跟踪
++#   trailer                          |  尾部签名
+ #   tree                             |  树（工作区或树对象）
+ #   tree object                      |  树对象
+ #   tree-ish (also treeish)          |  树对象（或可以解析为一树对象）
+@@ -135,8 +136,8 @@
+ msgid   ""
+ msgstr  "Project-Id-Version: Git\n"
+         "Report-Msgid-Bugs-To: Git Mailing List <git@vger.kernel.org>\n"
+-        "POT-Creation-Date: 2017-07-24 21:54+0800\n"
+-        "PO-Revision-Date: 2017-08-02 08:00+0800\n"
++        "POT-Creation-Date: 2017-10-17 09:44+0800\n"
++        "PO-Revision-Date: 2017-10-22 19:56+0800\n"
+         "Last-Translator: Jiang Xin <worldhello.net@gmail.com>\n"
+         "Language-Team: GitHub <https://github.com/jiangxin/git/>\n"
+         "Language: zh_CN\n"
+@@ -188,28 +189,27 @@ msgstr  "\n"
+ #
+ msgid   "\n"
+         "Commands:\n"
+-        " p, pick = use commit\n"
+-        " r, reword = use commit, but edit the commit message\n"
+-        " e, edit = use commit, but stop for amending\n"
+-        " s, squash = use commit, but meld into previous commit\n"
+-        " f, fixup = like \"squash\", but discard this commit's log message\n"
+-        " x, exec = run command (the rest of the line) using shell\n"
+-        " d, drop = remove commit\n"
++        "p, pick = use commit\n"
++        "r, reword = use commit, but edit the commit message\n"
++        "e, edit = use commit, but stop for amending\n"
++        "s, squash = use commit, but meld into previous commit\n"
++        "f, fixup = like \"squash\", but discard this commit's log message\n"
++        "x, exec = run command (the rest of the line) using shell\n"
++        "d, drop = remove commit\n"
+         "\n"
+         "These lines can be re-ordered; they are executed from top to "
+         "bottom.\n"
+ msgstr  "\n"
+         "命令:\n"
+-        " p, pick = 使用提交\n"
+-        " r, reword = 使用提交，但修改提交说明\n"
+-        " e, edit = 使用提交，但停止以便进行提交修补\n"
+-        " s, squash = 使用提交，但和前一个版本融合\n"
+-        " f, fixup = 类似于 \"squash\"，但丢弃提交说明日志\n"
+-        " x, exec = 使用 shell 运行命令（此行剩余部分）\n"
+-        " d, drop = 删除提交\n"
++        "p, pick = 使用提交\n"
++        "r, reword = 使用提交，但修改提交说明\n"
++        "e, edit = 使用提交，但停止以便进行提交修补\n"
++        "s, squash = 使用提交，但和前一个版本融合\n"
++        "f, fixup = 类似于 \"squash\"，但丢弃提交说明日志\n"
++        "x, exec = 使用 shell 运行命令（此行剩余部分）\n"
++        "d, drop = 删除提交\n"
+         "\n"
+         "这些行可以被重新排序；它们会被从上至下地执行。\n"
+-        "\n"
+ #
+ msgid   "\n"
+         "Did you mean this?"
+@@ -253,14 +253,6 @@ msgstr  "\n"
+         "如果您在这里删除一行，对应的提交将会丢失。\n"
+ #
+ #, c-format
+-msgid   "\n"
+-        "If you wanted to make '%s' track '%s', do this:\n"
+-        "\n"
+-msgstr  "\n"
+-        "如果你想用 '%s' 跟踪 '%s', 这么做：\n"
+-        "\n"
+-#
+-#, c-format
+ msgid   "\n"
+         "It looks like you may be committing a cherry-pick.\n"
+         "If this is not correct, please remove the file\n"
+@@ -743,10 +735,6 @@ msgid   "%%(subject) does not take arguments"
+ msgstr  "%%(subject) 不带参数"
+ #
+ #, c-format
+-msgid   "%%(trailers) does not take arguments"
+-msgstr  "%%(trailers) 不带参数"
+-#
+-#, c-format
+ msgid   "%-*s    and with remote %s\n"
+ msgstr  "%-*s    以及和远程 %s\n"
+ #
+@@ -1080,6 +1068,10 @@ msgid   "'%s' for '%s' is not a valid timestamp"
+ msgstr  "'%2$s' 的值 '%1$s' 不是一个有效的时间戳"
+ #
+ #, c-format
++msgid   "'%s' is aliased to '%s'"
++msgstr  "'%s' 是 '%s' 的别名"
++#
++#, c-format
+ msgid   "'%s' is already checked out at '%s'"
+ msgstr  "'%s' 已经检出到 '%s'"
+ #
+@@ -1512,6 +1504,9 @@ msgstr  "--subject-prefix/--rfc 和 -k 互斥。"
+ msgid   "--track needs a branch name"
+ msgstr  "--track 需要一个分支名"
+ #
++msgid   "--trailer with --only-input does not make sense"
++msgstr  "--trailer 和 --only-input 同时使用没有意义"
++#
+ msgid   "--unshallow on a complete repository does not make sense"
+ msgstr  "对于一个完整的仓库，参数 --unshallow 没有意义"
+ #
+@@ -1673,16 +1668,16 @@ msgid   "Already on '%s'\n"
+ msgstr  "已经位于 '%s'\n"
+ #
+ #, sh-format
+-msgid   "Already up-to-date with $pretty_name"
++msgid   "Already up to date with $pretty_name"
+ msgstr  "已经和 $pretty_name 保持一致"
+ #
+-msgid   "Already up-to-date!"
++msgid   "Already up to date!"
+ msgstr  "已经是最新的！"
+ #
+-msgid   "Already up-to-date."
++msgid   "Already up to date."
+ msgstr  "已经是最新的。"
+ #
+-msgid   "Already up-to-date. Yeeah!"
++msgid   "Already up to date. Yeeah!"
+ msgstr  "已经是最新的。耶！"
+ #
+ #, c-format
+@@ -1895,40 +1890,46 @@ msgid   "Branch %s is being rebased at %s"
+ msgstr  "分支 %s 正被变基到 %s"
+ #
+ #, c-format
+-msgid   "Branch %s set up to track local branch %s by rebasing."
+-msgstr  "分支 %s 设置为使用变基来跟踪本地分支 %s。"
++msgid   "Branch '%s' has no upstream information"
++msgstr  "分支 '%s' 没有上游信息"
+ #
+ #, c-format
+-msgid   "Branch %s set up to track local branch %s."
+-msgstr  "分支 %s 设置为跟踪本地分支 %s。"
++msgid   "Branch '%s' set up to track local branch '%s' by rebasing."
++msgstr  "分支 '%s' 设置为使用变基来跟踪本地分支 '%s'。"
+ #
+ #, c-format
+-msgid   "Branch %s set up to track local ref %s by rebasing."
+-msgstr  "分支 %s 设置为使用变基来跟踪本地引用 %s。"
++msgid   "Branch '%s' set up to track local branch '%s'."
++msgstr  "分支 '%s' 设置为跟踪本地分支 '%s。"
+ #
+ #, c-format
+-msgid   "Branch %s set up to track local ref %s."
+-msgstr  "分支 %s 设置为跟踪本地引用 %s。"
++msgid   "Branch '%s' set up to track local ref '%s' by rebasing."
++msgstr  "分支 '%s' 设置为使用变基来跟踪本地引用 '%s'。"
+ #
+ #, c-format
+-msgid   "Branch %s set up to track remote branch %s from %s by rebasing."
+-msgstr  "分支 %1$s 设置为使用变基来跟踪来自 %3$s 的远程分支 %2$s。"
++msgid   "Branch '%s' set up to track local ref '%s'."
++msgstr  "分支 '%s' 设置为跟踪本地引用 '%s'。"
+ #
+ #, c-format
+-msgid   "Branch %s set up to track remote branch %s from %s."
+-msgstr  "分支 %1$s 设置为跟踪来自 %3$s 的远程分支 %2$s。"
++msgid   "Branch '%s' set up to track remote branch '%s' from '%s' by rebasing."
++msgstr  "分支 '%1$s' 设置为使用变基来跟踪来自 '%3$s' 的远程分支 '%2$s'。"
+ #
+ #, c-format
+-msgid   "Branch %s set up to track remote ref %s by rebasing."
+-msgstr  "分支 %s 设置为使用变基来跟踪远程引用 %s。"
++msgid   "Branch '%s' set up to track remote branch '%s' from '%s'."
++msgstr  "分支 '%1$s' 设置为跟踪来自 '%3$s' 的远程分支 '%2$s'。"
+ #
+ #, c-format
+-msgid   "Branch %s set up to track remote ref %s."
+-msgstr  "分支 %s 设置为跟踪远程引用 %s。"
++msgid   "Branch '%s' set up to track remote ref '%s' by rebasing."
++msgstr  "分支 '%s' 设置为使用变基来跟踪远程引用 '%s'。"
+ #
+ #, c-format
+-msgid   "Branch '%s' has no upstream information"
+-msgstr  "分支 '%s' 没有上游信息"
++msgid   "Branch '%s' set up to track remote ref '%s'."
++msgstr  "分支 '%s' 设置为跟踪远程引用 '%s'。"
++#
++msgid   "Branch copy failed"
++msgstr  "分支拷贝失败"
++#
++msgid   "Branch is copied, but update of config-file failed"
++msgstr  "分支已拷贝，但更新 config 文件失败"
+ #
+ msgid   "Branch is renamed, but update of config-file failed"
+ msgstr  "分支被重命名，但更新 config 文件失败"
+@@ -2260,7 +2261,7 @@ msgid   "Cannot update paths and switch to branch '%s' at the same time."
+ msgstr  "不能同时更新路径并切换到分支'%s'。"
+ #
+ #, c-format
+-msgid   "Cannot update sparse checkout: the following entries are not up-to-"
++msgid   "Cannot update sparse checkout: the following entries are not up to "
+         "date:\n"
+         "%s"
+ msgstr  "无法更新稀疏检出：如下条目不是最新：\n"
+@@ -2392,6 +2393,10 @@ msgid   "Continuing under the assumption that you meant '%s'."
+ msgstr  "假定你想要的是 '%s' 并继续。"
+ #
+ #, c-format
++msgid   "Copied a misnamed branch '%s' away"
++msgstr  "从一个错误命名的分支 '%s' 复制"
++#
++#, c-format
+ msgid   "Corrupt MERGE_HEAD file (%s)"
+ msgstr  "损坏的 MERGE_HEAD 文件（%s）"
+ #
+@@ -2572,9 +2577,6 @@ msgstr  "不能设置 %s"
+ msgid   "Could not setup master '%s'"
+ msgstr  "无法设置 master '%s'"
+ #
+-msgid   "Could not skip unnecessary pick commands"
+-msgstr  "不能跳过不必要的拣选命令"
+-#
+ msgid   "Could not spawn pack-objects"
+ msgstr  "不能生成 pack-objects 进程"
+ #
+@@ -2687,10 +2689,10 @@ msgstr  "从索引和工作区中丢弃该块 [y,n,q,a,d,/%s,?]? "
+ msgid   "Discard this hunk from worktree [y,n,q,a,d,/%s,?]? "
+ msgstr  "从工作区中丢弃该块 [y,n,q,a,d,/%s,?]? "
+ #
+-msgid   "Do not touch the line above.\n"
+-        "Everything below will be removed."
+-msgstr  "不要改动上面的一行。\n"
+-        "下面的所有内容均将被删除。"
++msgid   "Do not modify or remove the line above.\n"
++        "Everything below it will be ignored."
++msgstr  "不要改动或删除上面的一行。\n"
++        "下面的所有内容均将被忽略。"
+ #
+ msgid   "Do not treat root commits as boundaries (Default: off)"
+ msgstr  "不把根提交作为边界（默认：关闭）"
+@@ -3001,6 +3003,9 @@ msgstr  "存在文件 '%s' 但是它也可能是一个用于产生补丁列表
+         "    * 如果含义为一个文件，使用 \"./%s\"，或者\n"
+         "    * 如果含义为一个范围，使用 --format-patch 选项。\n"
+ #
++msgid   "Filtering content"
++msgstr  "过滤内容"
++#
+ #, c-format
+ msgid   "Final output: %d %s\n"
+ msgstr  "最终输出：%d %s\n"
+@@ -3055,6 +3060,9 @@ msgid   "Generally this means that you provided a wildcard refspec which had "
+         "matches on the remote end."
+ msgstr  "通常这意味着您提供了一个通配符引用规格但未能和远端匹配。"
+ #
++msgid   "Generating patches"
++msgstr  "生成补丁"
++#
+ msgid   "Generic options"
+ msgstr  "通用选项"
+ #
+@@ -3820,9 +3828,6 @@ msgstr  "和获取相关的参数"
+ msgid   "Options related to merging"
+ msgstr  "和合并相关的选项"
+ #
+-msgid   "Or you can abort the rebase with 'git rebase --abort'."
+-msgstr  "或者您可以使用 'git rebase --abort' 命令终止变基操作。"
+-#
+ msgid   "Other"
+ msgstr  "其它"
+ #
+@@ -4101,12 +4106,17 @@ msgid   "Removing worktrees/%s: not a valid directory"
+ msgstr  "删除工作区/%s：不是一个有效的目录"
+ #
+ #, c-format
++msgid   "Removing worktrees/%s: short read (expected %<PRIuMAX> bytes, read "
++        "%<PRIuMAX>)"
++msgstr  "删除工作树/%s：读取过短（期望 %<PRIuMAX> 字节，读取 %<PRIuMAX>）"
++#
++#, c-format
+ msgid   "Removing worktrees/%s: unable to read gitdir file (%s)"
+ msgstr  "删除 worktrees/%s：无法读取 gitdir 文件 (%s)"
+ #
+ #, c-format
+ msgid   "Renamed a misnamed branch '%s' away"
+-msgstr  "重命名掉一个错误命名的旧分支 '%s'"
++msgstr  "重命名掉一个错误命名的分支 '%s'"
+ #
+ #, c-format
+ msgid   "Renaming %s to %s\n"
+@@ -4135,6 +4145,17 @@ msgstr  "重置分支 '%s'\n"
+ msgid   "Reset current HEAD to the specified state"
+ msgstr  "重置当前 HEAD 到指定状态"
+ #
++msgid   "Resolve all conflicts manually, mark them as resolved with\n"
++        "\"git add/rm <conflicted_files>\", then run \"git rebase --continue"
++        "\".\n"
++        "You can instead skip this commit: run \"git rebase --skip\".\n"
++        "To abort and get back to the state before \"git rebase\", run \"git "
++        "rebase --abort\"."
++msgstr  "手工解决所有冲突，执行 \"git add/rm <conflicted_files>\" 标记\n"
++        "冲突已解决，然后执行 \"git rebase --continue\"。您也可以执行\n"
++        "\"git rebase --skip\" 命令跳过这个提交。如果想要终止执行并回到\n"
++        "\"git rebase\" 执行之前的状态，执行 \"git rebase --abort\"。"
++#
+ msgid   "Resolve operation not in progress, we are not resuming."
+ msgstr  "解决操作未进行，我们不会继续。"
+ #
+@@ -4512,12 +4533,6 @@ msgstr  "选项 --cached 不能和选项 --files 同时使用"
+ msgid   "The --edit-todo action can only be used during interactive rebase."
+ msgstr  "动作 --edit-todo 只能用在交互式变基过程中。"
+ #
+-#, c-format
+-msgid   "The --set-upstream flag is deprecated and will be removed. Consider "
+-        "using --track or --set-upstream-to\n"
+-msgstr  "选项 --set-upstream 已弃用并将被移除。考虑使用 --track 或 --set-"
+-        "upstream-to\n"
+-#
+ msgid   "The -b/--binary option has been a no-op for long time, and\n"
+         "it will be removed. Please do not use it anymore."
+ msgstr  "参数 -b/--binary 已经很长时间不做任何实质操作了，并且将被移除。\n"
+@@ -4848,15 +4863,18 @@ msgstr  "这是提交说明 #${n}："
+ msgid   "This is the commit message #%d:"
+ msgstr  "这是提交说明 #%d："
+ #
++#, c-format
+ msgid   "To avoid this message, use \"drop\" to explicitly remove a commit.\n"
+         "\n"
+         "Use 'git config rebase.missingCommitsCheck' to change the level of "
+         "warnings.\n"
+-        "The possible behaviours are: ignore, warn, error."
++        "The possible behaviours are: ignore, warn, error.\n"
++        "\n"
+ msgstr  "为避免这条信息，使用 \"drop\" 指令显式地删除一个提交。\n"
+         "\n"
+         "使用 'git config rebase.missingCommitsCheck' 来修改警告级别。\n"
+-        "可选值有：ignore、warn、error。"
++        "可选值有：ignore、warn、error。\n"
++        "\n"
+ #
+ #, c-format
+ msgid   "To restore the original branch and stop patching, run \"%s --abort\"."
+@@ -5043,12 +5061,6 @@ msgstr  "未合并的路径："
+ msgid   "Unpacking objects"
+ msgstr  "展开对象中"
+ #
+-#, sh-format
+-msgid   "Unrecognized setting $check_level for option rebase."
+-        "missingCommitsCheck. Ignoring."
+-msgstr  "选项 rebase.missingCommitsCheck 的值 $check_level 无法被识别。已忽"
+-        "略。"
+-#
+ msgid   "Unset the upstream info"
+ msgstr  "取消上游信息的设置"
+ #
+@@ -5224,22 +5236,11 @@ msgstr  "警告：提交说明不符合 UTF-8 字符编码。\n"
+         "commitencoding\n"
+         "设置为您项目所用的字符编码。\n"
+ #
++#, c-format
+ msgid   "Warning: some commits may have been dropped accidentally.\n"
+-        "Dropped commits (newer to older):"
+-msgstr  "警告：一些提交可能被意外丢弃。丢弃的提交（从新到旧）："
+-#
+-#, sh-format
+-msgid   "Warning: the SHA-1 is missing or isn't a commit in the following "
+-        "line:\n"
+-        " - $line"
+-msgstr  "警告：缺失 SHA-1 或者在下面一行中不是一个提交：\n"
+-        " - $line"
+-#
+-#, sh-format
+-msgid   "Warning: the command isn't recognized in the following line:\n"
+-        " - $line"
+-msgstr  "警告：下面一行中的命令未能被识别：\n"
+-        " - $line"
++        "Dropped commits (newer to older):\n"
++msgstr  "警告：一些提交可能被意外丢弃。\n"
++        "丢弃的提交（从新到旧）：\n"
+ #
+ #, c-format
+ msgid   "Warning: you are leaving %d commit behind, not connected to\n"
+@@ -5278,15 +5279,6 @@ msgstr  "如何处理这个地址？([q]uit|[d]rop|[e]dit)："
+ msgid   "When you have resolved this problem, run \"%s --continue\"."
+ msgstr  "当您解决这一问题，执行 \"%s --continue\"。"
+ #
+-msgid   "When you have resolved this problem, run \"git rebase --continue\".\n"
+-        "If you prefer to skip this patch, run \"git rebase --skip\" "
+-        "instead.\n"
+-        "To check out the original branch and stop rebasing, run \"git rebase "
+-        "--abort\"."
+-msgstr  "当您解决了此问题后，执行 \"git rebase --continue\"。\n"
+-        "如果您想跳过此补丁，则执行 \"git rebase --skip\"。\n"
+-        "要恢复原分支并停止变基，执行 \"git rebase --abort\"。"
+-#
+ msgid   "Which 8bit encoding should I declare [UTF-8]? "
+ msgstr  "要声明 8bit 为什么样的编码格式 [UTF-8]？"
+ #
+@@ -5435,10 +5427,13 @@ msgstr  "您可以解决这个问题，然后运行\n"
+         "\n"
+         "\tgit rebase --continue"
+ #
++#, c-format
+ msgid   "You can fix this with 'git rebase --edit-todo' and then run 'git "
+-        "rebase --continue'."
+-msgstr  "您可以用 'git rebase --edit-todo' 修正问题然后执行 'git rebase --"
+-        "continue'。"
++        "rebase --continue'.\n"
++        "Or you can abort the rebase with 'git rebase --abort'.\n"
++msgstr  "您可以用 'git rebase --edit-todo' 修正然后执行 'git rebase --"
++        "continue'。\n"
++        "或者您可以用 'git rebase --abort' 终止变基。\n"
+ #
+ msgid   "You cannot combine --squash with --no-ff."
+ msgstr  "您不能将 --squash 与 --no-ff 同时使用。"
+@@ -5636,7 +5631,7 @@ msgstr[0]       "您的分支落后 '%s' 共 %d 个提交，并且可以快进
+ msgstr[1]       "您的分支落后 '%s' 共 %d 个提交，并且可以快进。\n"
+ #
+ #, c-format
+-msgid   "Your branch is up-to-date with '%s'.\n"
++msgid   "Your branch is up to date with '%s'.\n"
+ msgstr  "您的分支与上游分支 '%s' 一致。\n"
+ #
+ #, c-format
+@@ -5770,10 +5765,6 @@ msgid   "[up to date]"
+ msgstr  "[最新]"
+ #
+ #, c-format
+-msgid   "`git %s' is aliased to `%s'"
+-msgstr  "`git %s' 是 `%s' 的别名"
+-#
+-#, c-format
+ msgid   "a %s revision is needed"
+ msgstr  "需要一个 %s 版本"
+ #
+@@ -5811,6 +5802,12 @@ msgstr  "作用于远程跟踪分支"
+ msgid   "action"
+ msgstr  "动作"
+ #
++msgid   "action if trailer already exists"
++msgstr  "当尾部签名已经存在时所采取的动作"
++#
++msgid   "action if trailer is missing"
++msgstr  "当尾部签名缺失时所采取的动作"
++#
+ msgid   "add (at most <n>) entries from shortlog to merge commit message"
+ msgstr  "在合并提交信息中添加（最多 <n> 条）精简提交记录"
+ #
+@@ -6196,9 +6193,6 @@ msgstr  "基线提交不应该出现在版本列表中"
+ msgid   "base-commit"
+ msgstr  "基线提交"
+ #
+-msgid   "basename"
+-msgstr  "基本名"
+-#
+ msgid   "be more quiet"
+ msgstr  "更加安静"
+ #
+@@ -6398,6 +6392,9 @@ msgstr  "无法关闭保留文件 '%s'"
+ msgid   "cannot copy '%s' to '%s'"
+ msgstr  "不能拷贝 '%s' 至 '%s'"
+ #
++msgid   "cannot copy the current branch while not on any."
++msgstr  "无法拷贝当前分支因为不处于任何分支上。"
++#
+ #, c-format
+ msgid   "cannot create '%s'"
+ msgstr  "不能创建 '%s'"
+@@ -6634,9 +6631,6 @@ msgstr  "修改一个提交的父提交"
+ msgid   "change the upstream info"
+ msgstr  "改变上游信息"
+ #
+-msgid   "change upstream info"
+-msgstr  "改变上游信息"
+-#
+ msgid   "check if - even missing - files are ignored in dry run"
+ msgstr  "检查在演习模式下文件（即使不存在）是否被忽略"
+ #
+@@ -6646,6 +6640,9 @@ msgstr  "仅检查连通性"
+ msgid   "check out all files in the index"
+ msgstr  "检出索引区的所有文件"
+ #
++msgid   "check the todo list"
++msgstr  "检查待办列表"
++#
+ msgid   "checkout <branch> even if already checked out in other worktree"
+ msgstr  "检出分支 <branch> 即使已经被检出到其它工作区"
+ #
+@@ -6716,6 +6713,11 @@ msgstr  "协同（参见：git help workflows）"
+ msgid   "color '*!+-' corresponding to the branch"
+ msgstr  "着色 '*!+-' 到相应的分支"
+ #
++msgid   "color moved setting must be one of 'no', 'default', 'zebra', "
++        "'dimmed_zebra', 'plain'"
++msgstr  "代码移动的颜色设置必须是 'no'、'default'、'zebra'、'dimmed_zebra' 或 "
++        "'plain'"
++#
+ msgid   "combine patterns specified with -e"
+ msgstr  "组合用 -e 参数设定的模式"
+ #
+@@ -6816,6 +6818,12 @@ msgstr  "转换为一个完整的仓库"
+ msgid   "copied:"
+ msgstr  "拷贝："
+ #
++msgid   "copy a branch and its reflog"
++msgstr  "拷贝一个分支，以及它的引用日志"
++#
++msgid   "copy a branch, even if target exists"
++msgstr  "拷贝一个分支，即使目标已存在"
++#
+ msgid   "copy out the files from named stage"
+ msgstr  "从指定暂存区中拷出文件"
+ #
+@@ -6924,6 +6932,10 @@ msgid   "could not find commit from NOTES_MERGE_PARTIAL."
+ msgstr  "无法从 NOTES_MERGE_PARTIAL 中找到提交。"
+ #
+ #, c-format
++msgid   "could not finish '%s'"
++msgstr  "无法结束 '%s'"
++#
++#, c-format
+ msgid   "could not get submodule directory for '%s'"
+ msgstr  "无法得到 '%s' 的子模组目录"
+ #
+@@ -6988,6 +7000,10 @@ msgstr  "不能解析作者脚本"
+ msgid   "could not parse commit %s\n"
+ msgstr  "不能解析提交 %s\n"
+ #
++#, c-format
++msgid   "could not parse commit '%s'"
++msgstr  "不能解析提交 '%s'"
++#
+ msgid   "could not parse commit from NOTES_MERGE_PARTIAL."
+ msgstr  "无法从 NOTES_MERGE_PARTIAL 中解析提交。"
+ #
+@@ -7152,6 +7168,10 @@ msgid   "could not stat file '%s'"
+ msgstr  "不能对文件 '%s' 调用 stat"
+ #
+ #, c-format
++msgid   "could not truncate '%s'"
++msgstr  "无法截断 '%s'"
++#
++#, c-format
+ msgid   "could not unset '%s'"
+ msgstr  "不能取消设置 '%s'"
+ #
+@@ -7414,6 +7434,9 @@ msgstr  "禁用 bitmap 写入，因为一些对象将不会被打包"
+ msgid   "disabling bitmap writing, packs are split due to pack.packSizeLimit"
+ msgstr  "禁用 bitmap 写入，因为 pack.packSizeLimit 设置使得包被切分为多个"
+ #
++msgid   "do not apply config rules"
++msgstr  "不要应用配置规则"
++#
+ msgid   "do not check if another worktree is holding the given ref"
+ msgstr  "不检查指定的引用是否被其他工作区所占用"
+ #
+@@ -7484,6 +7507,9 @@ msgstr  "不信任补丁片段的头信息中的行号"
+ msgid   "do not try <directory>/.git/ if <directory> is no Git directory"
+ msgstr  "不要尝试 <directory>/.git/ 如果 <directory> 不是一个 Git 目录"
+ #
++msgid   "do not use"
++msgstr  "不要使用"
++#
+ msgid   "do not warn about conflicts"
+ msgstr  "不要警告冲突"
+ #
+@@ -7714,6 +7740,9 @@ msgstr  "若未找到匹配的引用则以退出码2退出"
+ msgid   "exit with zero when there's no error"
+ msgstr  "当没有错误时退出并返回零"
+ #
++msgid   "expand SHA-1s in the todo list"
++msgstr  "在待办列表中扩展哈希值"
++#
+ #, c-format
+ msgid   "expected format: %%(align:<width>,<position>)"
+ msgstr  "期望的格式：%%(align:<width>,<position>)"
+@@ -8260,6 +8289,9 @@ msgstr  "git bisect--helper --next-all [--no-checkout]"
+ msgid   "git blame [<options>] [<rev-opts>] [<rev>] [--] <file>"
+ msgstr  "git blame [<选项>] [<版本选项>] [<版本>] [--] <文件>"
+ #
++msgid   "git branch [<options>] (-c | -C) [<old-branch>] <new-branch>"
++msgstr  "git branch [<选项>] (-c | -C) [<老分支>] <新分支>"
++#
+ msgid   "git branch [<options>] (-m | -M) [<old-branch>] <new-branch>"
+ msgstr  "git branch [<选项>] (-m | -M) [<旧分支>] <新分支>"
+ #
+@@ -9335,6 +9367,9 @@ msgstr  "第一个是其他的祖先提交么？"
+ msgid   "it does not make sense to create 'HEAD' manually"
+ msgstr  "手工创建 'HEAD' 没有意义"
+ #
++msgid   "join whitespace-continued values"
++msgstr  "连接空白折行的值"
++#
+ msgid   "just hash any random garbage to create corrupt objects for debugging "
+         "Git"
+ msgstr  "允许对任意随机垃圾数据做散列来创建损坏的对象以便调试 Git"
+@@ -9348,6 +9383,9 @@ msgstr  "保持"
+ msgid   "keep downloaded pack"
+ msgstr  "保持下载包"
+ #
++msgid   "keep empty commits"
++msgstr  "保持空提交"
++#
+ msgid   "keep redundant, empty commits"
+ msgstr  "保持多余的、空的提交"
+ #
+@@ -9484,6 +9522,9 @@ msgstr  "使第一封邮件作为对 <邮件标识> 的回复"
+ msgid   "make index objects head nodes"
+ msgstr  "将索引亦作为检查的头节点"
+ #
++msgid   "make rebase script"
++msgstr  "制作变基脚本"
++#
+ msgid   "make reflogs head nodes (default)"
+ msgstr  "将引用日志作为检查的头节点（默认）"
+ #
+@@ -9497,6 +9538,12 @@ msgstr  "显示相对于顶级目录的文件名"
+ msgid   "make_cache_entry failed for path '%s'"
+ msgstr  "对路径 '%s' 的 make_cache_entry 操作失败"
+ #
++msgid   "make_script: error preparing revisions"
++msgstr  "make_script：准备版本时错误"
++#
++msgid   "make_script: unhandled options"
++msgstr  "make_script：有未能处理的选项"
++#
+ msgid   "malformed --author parameter"
+ msgstr  "非法的 --author 参数"
+ #
+@@ -9699,8 +9746,8 @@ msgstr  "需要一个 HEAD 来修复"
+ msgid   "negative value for http.postbuffer; defaulting to %d"
+ msgstr  "http.postbuffer 为负值，默认为 %d"
+ #
+-msgid   "negative values not allowed for submodule.fetchJobs"
+-msgstr  "submodule.fetchJobs 不允许为负值"
++msgid   "negative values not allowed for submodule.fetchjobs"
++msgstr  "submodule.fetchjobs 不允许为负值"
+ #
+ #  译者：末尾两个字节可能被删减，如果翻译为中文标点会出现半个汉字
+ msgid   "new commits, "
+@@ -10115,6 +10162,9 @@ msgstr  "在 From 头信息中输出全为零的哈希值"
+ msgid   "output in stuck long form"
+ msgstr  "以固定长格式输出"
+ #
++msgid   "output only the trailers"
++msgstr  "只输出尾部签名"
++#
+ msgid   "output pack to stdout"
+ msgstr  "输出包到标准输出"
+ #
+@@ -10374,9 +10424,6 @@ msgstr  "为所有文件名前添加 <根目录>"
+ msgid   "prepend comment character and space to each line"
+ msgstr  "为每一行的行首添加注释符和空格"
+ #
+-msgid   "prepend parent project's basename to output"
+-msgstr  "在输出中以父项目的基本名为前缀"
+-#
+ msgid   "prepend prefix to each pathname in the archive"
+ msgstr  "为归档中每个路径名加上前缀"
+ #
+@@ -10621,6 +10668,9 @@ msgstr  "读取二分查找引用失败"
+ msgid   "reading from '%s' beyond a symbolic link"
+ msgstr  "读取位于符号链接中的 '%s'"
+ #
++msgid   "rearrange fixup/squash lines"
++msgstr  "重新排列 fixup/squash 行"
++#
+ msgid   "reason"
+ msgstr  "原因"
+ #
+@@ -10916,6 +10966,9 @@ msgid   "resolve notes conflicts using the given strategy (manual/ours/theirs/"
+         "union/cat_sort_uniq)"
+ msgstr  "使用指定的策略解决注解冲突 (manual/ours/theirs/union/cat_sort_uniq)"
+ #
++msgid   "respect format colors"
++msgstr  "遵照格式中的颜色输出"
++#
+ msgid   "respect include directives on lookup"
+ msgstr  "查询时参照 include 指令递归查找"
+ #
+@@ -11049,6 +11102,9 @@ msgstr  "在新仓库中设置配置信息"
+ msgid   "set labels for file1/orig-file/file2"
+ msgstr  "为 文件1/初始文件/文件2 设置标签"
+ #
++msgid   "set parsing options"
++msgstr  "设置解析选项"
++#
+ msgid   "set refs/remotes/<name>/HEAD according to remote"
+ msgstr  "根据远程设置 refs/remotes/<名称>/HEAD"
+ #
+@@ -11085,6 +11141,9 @@ msgstr  "短 SHA1 %s 存在歧义"
+ msgid   "shortcut for -C NUM"
+ msgstr  "快捷键 -C 数字"
+ #
++msgid   "shorten SHA-1s in the todo list"
++msgstr  "在待办列表中使用短的哈希值"
++#
+ msgid   "shorten ref output"
+ msgstr  "简短的引用输出"
+ #
+@@ -11247,6 +11306,9 @@ msgstr  "显示进度表"
+ msgid   "show progress meter during object writing phase"
+ msgstr  "在对象写入阶段显示进度表"
+ #
++msgid   "show progress while generating patches"
++msgstr  "在生成补丁时显示进度"
++#
+ msgid   "show refs from stdin that aren't in local repository"
+ msgstr  "显示从标准输入中读入的不在本地仓库中的引用"
+ #
+@@ -11340,6 +11402,9 @@ msgstr  "跳过移动/重命名错误"
+ msgid   "skip the current patch"
+ msgstr  "跳过当前补丁"
+ #
++msgid   "skip unnecessary picks"
++msgstr  "跳过不必要的拣选"
++#
+ msgid   "soft"
+ msgstr  "软性"
+ #
+@@ -11470,8 +11535,8 @@ msgid   "submodule '%s' has dirty index"
+ msgstr  "子模组 '%s' 中有脏索引"
+ #
+ #, c-format
+-msgid   "submodule update strategy not supported for submodule '%s'"
+-msgstr  "子模组 %s 不支持子模组更新策略"
++msgid   "submodule entry '%s' (%s) is a %s, not a commit"
++msgstr  "子模组条目 '%s' (%s) 是一个 %s，不是一个提交"
+ #
+ msgid   "suppress diff output"
+ msgstr  "不显示差异输出"
+@@ -11557,6 +11622,11 @@ msgstr  "测试文件系统是否支持未跟踪文件缓存"
+ msgid   "text"
+ msgstr  "文本"
+ #
++msgid   "the '--set-upstream' option is no longer supported. Please use '--"
++        "track' or '--set-upstream-to' instead."
++msgstr  "不再支持选项 '--set-upstream'。考虑使用 '--track' 或 '--set-upstream-"
++        "to'。"
++#
+ msgid   "the commit is authored by me now (used with -C/-c/--amend)"
+ msgstr  "现在将该提交的作者改为我（和 -C/-c/--amend 参数共用）"
+ #
+@@ -11623,6 +11693,9 @@ msgstr  "接收端不支持推送选项"
+ msgid   "the requested upstream branch '%s' does not exist"
+ msgstr  "请求的上游分支 '%s' 不存在"
+ #
++msgid   "the script was already rearranged."
++msgstr  "脚本已经重新编排。"
++#
+ msgid   "the signature will be removed in the replacement commit!"
+ msgstr  "在替换的提交中签名将被移除！"
+ #
+@@ -11638,14 +11711,17 @@ msgstr  "允许不正确的文件末尾换行符"
+ msgid   "too few parameters"
+ msgstr  "参数太少"
+ #
+-msgid   "too many branches for a rename operation"
+-msgstr  "为重命名操作提供了太多的分支名"
++msgid   "too many arguments for a rename operation"
++msgstr  "为重命名操作提供了太多的参数"
++#
++msgid   "too many arguments to set new upstream"
++msgstr  "为设置新上游提供了太多的参数"
+ #
+-msgid   "too many branches to set new upstream"
+-msgstr  "为设置新上游提供了太多的分支名"
++msgid   "too many arguments to unset upstream"
++msgstr  "为取消上游设置操作提供了太多的参数"
+ #
+-msgid   "too many branches to unset upstream"
+-msgstr  "为取消上游设置操作提供了太多的分支名"
++msgid   "too many branches for a copy operation"
++msgstr  "为拷贝操作提供了太多的分支名"
+ #
+ msgid   "too many parameters"
+ msgstr  "参数太多"
+@@ -11669,10 +11745,10 @@ msgstr[0]       "触碰了 %d 个路径\n"
+ msgstr[1]       "触碰了 %d 个路径\n"
+ #
+ msgid   "trailer"
+-msgstr  "签名"
++msgstr  "尾部签名"
+ #
+ msgid   "trailer(s) to add"
+-msgstr  "要添加的签名"
++msgstr  "要添加的尾部签名"
+ #
+ #, c-format
+ msgid   "transport: invalid depth option '%s'"
+@@ -11686,7 +11762,7 @@ msgid   "tree-ish"
+ msgstr  "树或提交"
+ #
+ msgid   "trim empty trailers"
+-msgstr  "删除空签名"
++msgstr  "删除空的尾部签名"
+ #
+ #, c-format
+ msgid   "truncating .rej filename to %.*s.rej"
+@@ -11767,6 +11843,10 @@ msgid   "unable to open %s: %s\n"
+ msgstr  "不能打开 %s：%s\n"
+ #
+ #, c-format
++msgid   "unable to open '%s' for writing"
++msgstr  "无法以写入方式打开 '%s'"
++#
++#, c-format
+ msgid   "unable to open git dir: %s"
+ msgstr  "不能打开 git 目录：%s"
+ #
+@@ -11795,6 +11875,9 @@ msgstr  "不能解析联系地址：%s"
+ msgid   "unable to parse default color value"
+ msgstr  "不能解析默认颜色值"
+ #
++msgid   "unable to parse format string"
++msgstr  "不能解析格式化字符串"
++#
+ #, c-format
+ msgid   "unable to parse object: %s"
+ msgstr  "不能解析对象：%s"
+@@ -11931,6 +12014,10 @@ msgstr  "意外的模式 $mod_dst"
+ msgid   "unhandled object '%s' given."
+ msgstr  "无法处理的对象 '%s'。"
+ #
++#, c-format
++msgid   "unknown %%(trailers) argument: %s"
++msgstr  "未知的 %%(trailers) 参数：%s"
++#
+ #, perl-format
+ msgid   "unknown --patch mode: %s"
+ msgstr  "未知的 --patch 模式：%s"
+@@ -12050,6 +12137,11 @@ msgid   "unrecognized position:%s"
+ msgstr  "未能识别的位置：%s"
+ #
+ #, c-format
++msgid   "unrecognized setting %s for option rebase.missingCommitsCheck. "
++        "Ignoring."
++msgstr  "选项 rebase.missingCommitsCheck 的值 %s 无法识别。已忽略。"
++#
++#, c-format
+ msgid   "unrecognized whitespace ignore option '%s'"
+ msgstr  "未能识别的空白字符忽略选项 '%s'"
+ #
+@@ -12076,6 +12168,10 @@ msgstr  "未跟踪的内容, "
+ msgid   "unusable instruction sheet: '%s'"
+ msgstr  "不可用的指令清单：'%s'"
+ #
++#, c-format
++msgid   "unusable todo list: '%s'"
++msgstr  "不可用的 todo 列表：'%s'"
++#
+ msgid   "up to date"
+ msgstr  "最新"
+ #
+@@ -12275,6 +12371,9 @@ msgstr  "值是十进制数"
+ msgid   "verbose"
+ msgstr  "冗长输出"
+ #
++msgid   "verify commit-msg hook"
++msgstr  "校验 commit-msg 钩子"
++#
+ msgid   "verify tags"
+ msgstr  "验证标签"
+ #
+@@ -12322,6 +12421,9 @@ msgstr  "在创建文件时，在前面加上 <字符串>"
+ msgid   "where the new submodule will be cloned to"
+ msgstr  "新的子模组将要克隆的路径"
+ #
++msgid   "where to place the new trailer"
++msgstr  "在哪里放置新的尾部签名"
++#
+ msgid   "whether the initial clone should follow the shallow recommendation"
+ msgstr  "初始克隆是否应该遵守推荐的浅克隆选项"
+ #
